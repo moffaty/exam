@@ -34,7 +34,9 @@ class Report extends \yii\db\ActiveRecord
         return [
             [['description'], 'string'],
             [['user_id', 'status_id'], 'integer'],
-            [['number'], 'string', 'max' => 127],
+            [['description', 'number'], 'required'],
+            [['number'], 'string', 'length' => 8],
+            [['description'], 'string', 'min' => 4],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['status_id' => 'id']],
         ];

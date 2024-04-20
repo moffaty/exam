@@ -16,4 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 
+    <a href="/site/login" style="color: #80808087 !important">У меня есть аккаунт</a>
+
 </div>

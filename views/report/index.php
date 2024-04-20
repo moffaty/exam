@@ -2,6 +2,7 @@
 
 use app\models\Report;
 use app\models\Role;
+use app\models\Status;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -48,6 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'content' => function ($model) {
                     return $model->status;
                 },
+                'contentOptions' => function($model) {
+                    $options = [];
+                    switch ($model->status_id) {
+                        case Status::STATUS_NEW: $options['style'] = 'color:blue'; break;
+                        case Status::STATUS_ACC: $options['style'] = 'color:green'; break;
+                        case Status::STATUS_DEC: $options['style'] = 'color:red'; break;
+                    }
+                    return $options;
+                }, 
             ],
             [
                 'class' => ActionColumn::className(),
