@@ -39,15 +39,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Главная', 'url' => ['/site/index']],
+            ['label' => 'О нас', 'url' => ['/site/about']],
+            Yii::$app->user->isGuest ? ['label' => 'Регистрация', 'url' => '/user/create'] : '',
+            !Yii::$app->user->isGuest ? ['label' => 'Заявки', 'url' => '/report/index'] : '',
             Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/site/login']]
+                ? ['label' => 'Авторизация', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
                     . Html::beginForm(['/site/logout'])
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        'Выход (' . Yii::$app->user->identity->fio . ')',
                         ['class' => 'nav-link btn btn-link logout']
                     )
                     . Html::endForm()
@@ -68,15 +69,21 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </div>
 </main>
 
-<footer id="footer" class="mt-auto py-3 bg-light">
-    <div class="container">
-        <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
-            <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
-        </div>
-    </div>
+<footer class="mt-auto py-3 bg-light">
+<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/site/index" class="nav-link px-2 text-muted">Главная</a></li>
+      <li class="nav-item"><a href="/site/about" class="nav-link px-2 text-muted">О нас</a></li>
+      <?php 
+        if (Yii::$app->user->isGuest) {
+            echo '<li class="nav-item"><a href="/site/login" class="nav-link px-2 text-muted">Авторизация</a></li>';
+        }
+        else {
+            echo '<li class="nav-item"><a href="/report/index" class="nav-link px-2 text-muted">Заявки</a></li>';
+        }
+      ?>
+    </ul>
+    <p class="text-center text-muted">Портал &copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>
